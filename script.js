@@ -1,29 +1,32 @@
-function func(arr) {
+function func(arr) {    
+        let newArr = arr.map(function (obj) {
 
-    arr = arr.map(function (obj) {
-        
-    	for (let key in obj) {
-    		if (!obj.hasOwnProperty(key)) continue;
+        let clonObj = {};           
+        for (let key in obj) {
 
-    		if(!isNaN(obj[key])) {
-                obj[key] = +obj[key];
+            clonObj[key] = obj[key];
+
+            if (!clonObj.hasOwnProperty(key)) continue;
+
+            if(!isNaN(clonObj[key])) {
+                clonObj[key] = +clonObj[key];
             }
 
-    		const replace = key.replace("_","");
-    		if (key !== replace) {
-	    		checkElem(key, replace);
-	    	}
+            const replace = key.replace("_","");
+            if (key !== replace) {
+                checkElem(key, replace);
+            }
 
-	    	if (key === "name") {
+            if (key === "name") {
                 checkElem(key, "label");
             }
-    	}
-    	return obj;
+        }
+        return clonObj;
 
-    	function checkElem(oldKey, newKey) {
-   			obj[newKey] = obj[oldKey];
-   			delete obj[oldKey];
-    	}
-	});
-    return arr;
+        function checkElem(oldKey, newKey) {
+            clonObj[newKey] = clonObj[oldKey];
+            clonObj[oldKey] = undefined;
+        }
+    });
+    return newArr;
 }
